@@ -7,6 +7,13 @@ use App\Models\Post;
 
 class PostController extends Controller
 {
+    public function deletePost(Post $post){
+        if(auth()->user()->id === $post['user_id']){
+            $post->delete();
+        }
+        return redirect('/');
+    }    
+
     public function actuallyUpdatePost(Post $post, Request $request){
         if(!auth()->check()){
             return redirect('/');
