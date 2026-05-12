@@ -13,6 +13,32 @@
         <button type="submit">Logout</button>
     </form>
 
+     <div style="border: 3px solid black">
+        <h2>Create New Post</h2>
+        <form action="/create-post" method="POST">
+            @csrf
+            <input type="text" name="title" placeholder="Post Title">
+            <textarea name="body" placeholder="Body Content...."></textarea>
+            <button type="submit">Create Post</button>
+        </form>
+     </div>
+
+     <div style="border: 3px solid black">
+        <h2>All Posts</h2>
+        @foreach($posts as $post)
+        <div style="background-color: gray; padding: 10px; margin: 10px;">
+            <h3>{{$post['title']}}</h3>
+            <p>{{$post['body']}}</p>
+            <p><a href="/edit-post/{{$post->id}}">Edit Post</a></p>
+            <form action="/delete-post/{{$post->id}}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button>Delete Post</button>
+            </form>
+        </div>
+        @endforeach
+     </div>
+
     @else
     <div style="border: 3px solid black">
         <h2>Register</h2>
