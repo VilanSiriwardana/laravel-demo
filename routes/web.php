@@ -26,3 +26,13 @@ Route::post('/create-post', [PostController::class, 'createPost']);
 Route::get('/edit-post/{post}', [PostController::class, 'showEditScreen']);
 Route::put('/edit-post/{post}', [PostController::class, 'actuallyUpdatePost']);
 Route::delete('/delete-post/{post}', [PostController::class, 'deletePost']);
+
+Route::middleware(['auth'])->group(function () {
+    Route::get('/admin/audit-logs', [App\Http\Controllers\Admin\AuditLogController::class, 'index'])
+        ->name('audit-logs.index');
+});
+
+// If you have a GET route for showing login form:
+Route::get('/login', function () {
+    return view('home'); // or your login view
+})->name('login');
