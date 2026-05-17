@@ -37,7 +37,7 @@
                 <h2 class="text-lg font-semibold text-slate-900">Create New Post</h2>
                 <p class="mt-1 text-sm text-slate-500">Share a quick update with your class.</p>
 
-                <form action="/create-post" method="POST" class="mt-5 space-y-4">
+                <form action="/create-post" method="POST" class="mt-5 space-y-4" enctype="multipart/form-data">
                   @csrf
                   <div>
                     <label class="text-sm font-medium text-slate-700">Title</label>
@@ -49,8 +49,16 @@
                     <textarea name="body" rows="6" placeholder="Body Content...."
                       class="mt-1 w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200"></textarea>
                   </div>
+                  <div>
+                    <label class="text-sm font-medium text-slate-700">Image</label>
+                    <div class="flex space-x-4"><input type="file" name="image"
+                        class="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-200">
+                    </div>
+
+                  </div>
+
                   <button type="submit"
-                    class="inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700">
+                    class="mt-4 inline-flex w-full items-center justify-center rounded-md bg-blue-600 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-blue-700">
                     Create Post
                   </button>
                 </form>
@@ -72,27 +80,30 @@
                 <div class="mt-6 space-y-4">
                   @foreach ($posts as $post)
                     <article class="rounded-lg border border-slate-200 bg-slate-50/60 p-4">
-                      <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
-                        <div>
-                          <h3 class="text-base font-semibold text-slate-900">{{ $post['title'] }}</h3>
-                          <p class="text-xs text-slate-500">by {{ $post->user->name }}</p>
-                        </div>
-                        <div class="flex items-center gap-2">
-                          <a href="/edit-post/{{ $post->id }}"
-                            class="inline-flex items-center rounded-md border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700 hover:bg-blue-100">
-                            Edit
-                          </a>
-                          <form action="/delete-post/{{ $post->id }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit"
-                              class="inline-flex items-center rounded-md border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700 hover:bg-rose-100">
-                              Delete
-                            </button>
-                          </form>
+                      <div class="flex gap-4">
+                        <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image"
+                          class="h-16 w-16 rounded-md object-cover">
+                        <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                            <h3 class="text-base font-semibold text-slate-900">{{ $post['title'] }}</h3>
+                            <p class="text-xs text-slate-500">by {{ $post->user->name }}</p>
+                          <div class="flex items-center gap-2">
+                            <a href="/edit-post/{{ $post->id }}"
+                              class="inline-flex items-center rounded-md border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700 hover:bg-blue-100">
+                              Edit
+                            </a>
+                            <form action="/delete-post/{{ $post->id }}" method="POST">
+                              @csrf
+                              @method('DELETE')
+                              <button type="submit"
+                                class="inline-flex items-center rounded-md border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700 hover:bg-rose-100">
+                                Delete
+                              </button>
+                            </form>
+                          </div>
                         </div>
                       </div>
                       <p class="mt-3 text-sm text-slate-700">{{ $post['body'] }}</p>
+
                     </article>
                   @endforeach
                 </div>

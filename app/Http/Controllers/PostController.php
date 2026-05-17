@@ -51,11 +51,15 @@ class PostController extends Controller
     public function createPost(Request $request) {
         $incomingFields = $request->validate([
             'title' => 'required',
-            'body' => 'required'
+            'body' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
         ]);
+
+        $imagePath = $request->file('image')->store('uploads', 'public');
 
         $incomingFields['title'] = strip_tags($incomingFields['title']);
         $incomingFields['body'] = strip_tags($incomingFields['body']);
+        $incomingFields['image'] = $imagePath;
 
         $incomingFields['user_id'] = auth()->id();
 
