@@ -25,11 +25,14 @@ class PostController extends Controller
 
         $incomingFields = $request->validate([
             'title' => 'required',
-            'body' => 'required'
+            'body' => 'required',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096'
         ]);
 
         $incomingFields['title'] = strip_tags($incomingFields['title']);
         $incomingFields['body'] = strip_tags($incomingFields['body']);
+
+        $incomingFields['image'] = $request->file('image')->store('uploads', 'public');
 
         $post->update($incomingFields);
         return redirect('/');
@@ -52,14 +55,13 @@ class PostController extends Controller
         $incomingFields = $request->validate([
             'title' => 'required',
             'body' => 'required',
-            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:4096'
         ]);
-
-        $imagePath = $request->file('image')->store('uploads', 'public');
 
         $incomingFields['title'] = strip_tags($incomingFields['title']);
         $incomingFields['body'] = strip_tags($incomingFields['body']);
-        $incomingFields['image'] = $imagePath;
+
+        $incomingFields['image'] = $request->file('image')->store('uploads', 'public');
 
         $incomingFields['user_id'] = auth()->id();
 

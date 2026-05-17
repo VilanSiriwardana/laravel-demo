@@ -80,30 +80,32 @@
                 <div class="mt-6 space-y-4">
                   @foreach ($posts as $post)
                     <article class="rounded-lg border border-slate-200 bg-slate-50/60 p-4">
-                      <div class="flex gap-4">
-                        <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image"
-                          class="h-16 w-16 rounded-md object-cover">
-                        <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+                      <div class="flex flex-col gap-3 sm:flex-row items-center sm:justify-between">
+                        <div class="flex items-center gap-3">
+                          <img src="{{ asset('storage/' . $post->image) }}" alt="Post Image"
+                            class="h-16 w-16 rounded-md object-cover">
+                          <div class="flex flex-col items-start justify-between">
                             <h3 class="text-base font-semibold text-slate-900">{{ $post['title'] }}</h3>
                             <p class="text-xs text-slate-500">by {{ $post->user->name }}</p>
-                          <div class="flex items-center gap-2">
-                            <a href="/edit-post/{{ $post->id }}"
-                              class="inline-flex items-center rounded-md border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700 hover:bg-blue-100">
-                              Edit
-                            </a>
-                            <form action="/delete-post/{{ $post->id }}" method="POST">
-                              @csrf
-                              @method('DELETE')
-                              <button type="submit"
-                                class="inline-flex items-center rounded-md border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700 hover:bg-rose-100">
-                                Delete
-                              </button>
-                            </form>
                           </div>
+
+                        </div>
+                        <div class="flex items-center gap-2">
+                          <a href="/edit-post/{{ $post->id }}"
+                            class="inline-flex items-center rounded-md border border-blue-200 bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700 hover:bg-blue-100">
+                            Edit
+                          </a>
+                          <form action="/delete-post/{{ $post->id }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit"
+                              class="inline-flex items-center rounded-md border border-rose-200 bg-rose-50 px-3 py-1.5 text-xs font-semibold text-rose-700 hover:bg-rose-100">
+                              Delete
+                            </button>
+                          </form>
                         </div>
                       </div>
                       <p class="mt-3 text-sm text-slate-700">{{ $post['body'] }}</p>
-
                     </article>
                   @endforeach
                 </div>
